@@ -23,7 +23,7 @@ import UIKit
     optional func expandableTableView(tableView: UITableView, isExpandableSection section: Int) -> Bool
     
     /// The height of cells within an expandable section
-    optional func expandableTableView(tableView: UITableView, heightForRowInSection section: Int) -> CGFloat
+    optional func expandableTableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     
     /// The height of the expandable section title cell
     optional func expandableTableView(tableView: UITableView, heightForTitleCellInSection section: Int) -> CGFloat
@@ -76,7 +76,7 @@ public class NAExpandableTableController: NSObject, UITableViewDataSource, UITab
             return dataSource?.expandableTableView?(tableView, heightForTitleCellInSection: indexPath.section) ?? defaultRowHeight
         }
         
-        return dataSource?.expandableTableView?(tableView, heightForRowInSection: indexPath.section) ?? defaultRowHeight
+        return dataSource?.expandableTableView?(tableView, heightForRowAtIndexPath: indexPath) ?? defaultRowHeight
     }
     
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -133,8 +133,6 @@ public class NAExpandableTableController: NSObject, UITableViewDataSource, UITab
             let rowIndexPath = NSIndexPath(forRow: indexPath.row - 1, inSection: indexPath.section)
             delegate?.expandableTableView?(tableView, didSelectRowAtIndexPath: rowIndexPath)
         }
-        
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .None)
     }
     
     internal func expandSection(tableView: UITableView, section: Int) {
