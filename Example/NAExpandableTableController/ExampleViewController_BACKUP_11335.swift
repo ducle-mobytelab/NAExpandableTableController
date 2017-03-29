@@ -14,7 +14,15 @@ class ExampleViewController: UITableViewController, NAExpandableTableViewDataSou
     /// Basic seed data for our example tableView
     let numberOfSections = 5
     let numberOfRowsInEachSection = 3
+<<<<<<< HEAD
+<<<<<<< HEAD
     let expandableSectionIndices = [0, 5, 3]
+=======
+    let expandableSectionIndices = [0, 2, 3]
+>>>>>>> parent of 3c4dc36... Update expandableSectionIndices
+=======
+    let expandableSectionIndices = [0, 5, 3]
+>>>>>>> development
 
     /// Need to hold strong reference to our expandable table controller
     fileprivate var expandableTableController: NAExpandableTableController!
