@@ -25,8 +25,6 @@ import UIKit
     /// The height of cells within an expandable section
     @objc optional func expandableTableView(_ tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat
     
-    @objc optional func expandableTableView(_ tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: IndexPath) -> CGFloat
-    
     /// The height of the expandable section title cell
     @objc optional func expandableTableView(_ tableView: UITableView, heightForTitleCellInSection section: Int) -> CGFloat
 }
@@ -73,10 +71,6 @@ open class NAExpandableTableController: NSObject, UITableViewDataSource, UITable
         return dataSource?.numberOfSectionsInExpandableTableView(tableView) ?? 0
     }
     
-    open func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return dataSource?.expandableTableView?(tableView, estimatedHeightForRowAtIndexPath: indexPath) ?? defaultRowHeight
-    }
-    
     open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (indexPath as NSIndexPath).row == 0 {
             return dataSource?.expandableTableView?(tableView, heightForTitleCellInSection: (indexPath as NSIndexPath).section) ?? defaultRowHeight
@@ -109,17 +103,11 @@ open class NAExpandableTableController: NSObject, UITableViewDataSource, UITable
         
         let expandable = dataSource.expandableTableView?(tableView, isExpandableSection: (indexPath as NSIndexPath).section) ?? true
         if (indexPath as NSIndexPath).row == 0 && expandable {
-            
-            let row = dataSource.expandableTableView(tableView, titleCellForSection: (indexPath as NSIndexPath).section, expanded: expandDict[(indexPath as NSIndexPath).section] ?? false)
-            row.selectionStyle = .none
-            return row
+            return dataSource.expandableTableView(tableView, titleCellForSection: (indexPath as NSIndexPath).section, expanded: expandDict[(indexPath as NSIndexPath).section] ?? false)
         }
         
         let rowIndexPath = expandable ? IndexPath(row: (indexPath as NSIndexPath).row - 1, section: (indexPath as NSIndexPath).section) : indexPath
-        
-        let row = dataSource.expandableTableView(tableView, cellForRowAtIndexPath: rowIndexPath)
-        row.selectionStyle = .none
-        return row
+        return dataSource.expandableTableView(tableView, cellForRowAtIndexPath: rowIndexPath)
     }
     
     open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
